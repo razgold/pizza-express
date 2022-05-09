@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: default-backend-ingress-example
+spec:
+  rules:
+    - host: hello-world.info
+      http:
+        paths:          
+        - pathType: Prefix
+          path: "/" 
+          backend:
+            service:
+              name: node-service-test
+              port:
+                number: 3000

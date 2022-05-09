@@ -7,8 +7,12 @@ const bodyParser = require('body-parser');
 const generateId = require('./lib/generate-id');
 
 var redis = require("redis"),
-  client = redis.createClient('6379');
+  client = redis.createClient({
+      host: process.env.REDIS_URL,
+      port: process.env.REDIS_PORT
+});
 
+        
 app.use(express.static('static'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -42,8 +46,8 @@ app.get('/pizzas/:id', (request, response) => {
 
 if (!module.parent) {
   app.listen(app.get('port'), () => {
-    console.log(`${app.locals.title} is running on ${app.get('port')}.`);
-    console.log(`putting key 'somekey' with value in redis and getting it: `);
+    console.log(`${app.locals.title} is running ok on ${app.get('port')}.`);
+    console.log(`putting key 'somekey1' with value in redis and getting it: `);
 
     client.set("somekey", "successful test");
     client.get("somekey", function(err, reply) {
